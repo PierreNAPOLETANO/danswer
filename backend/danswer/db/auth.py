@@ -31,10 +31,7 @@ async def get_user_count() -> int:
 class SQLAlchemyUserAdminDB(SQLAlchemyUserDatabase):
     async def create(self, create_dict: Dict[str, Any]) -> UP:
         user_count = await get_user_count()
-        if user_count == 0:
-            create_dict["role"] = UserRole.ADMIN
-        else:
-            create_dict["role"] = UserRole.BASIC
+        create_dict["role"] = UserRole.ADMIN if user_count == 0 else UserRole.BASIC
         return await super().create(create_dict)
 
 
